@@ -23,9 +23,12 @@
 
     h3 { 
         text-transform: uppercase; 
-        text-shadow: 0 0 10px rgba(255, 215, 0, 0.5), 2px 2px 4px black;
+        /* Изменен цвет на приятный желтый */
+        color: #ffeb3b;
+        text-shadow: 0 0 15px rgba(255, 235, 59, 0.4), 2px 2px 4px rgba(0, 0, 0, 0.8);
         margin-bottom: 25px;
         letter-spacing: 2px;
+        text-align: center;
     }
 
     .grid {
@@ -43,12 +46,10 @@
         transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
         cursor: pointer;
         grid-column: span 2;
-        /* Мягкое базовое свечение, чтобы карта не сливалась с фоном */
         box-shadow: 0 0 15px rgba(255, 215, 0, 0.2), 0 4px 10px rgba(0,0,0,0.5);
         border-radius: 10px;
     }
 
-    /* Эффект при наведении — карта «оживает» */
     .card-container:hover {
         transform: translateY(-5px);
         box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
@@ -59,7 +60,6 @@
 
     .card-container.flipped { 
         transform: rotateY(180deg); 
-        /* Особое свечение для открытой карты */
         box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
     }
 
@@ -74,7 +74,7 @@
     .card-front {
         background: url('back.jpg') no-repeat center center;
         background-size: cover;
-        border: 1px solid rgba(255, 215, 0, 0.3); /* Тонкая золотая рамка */
+        border: 1px solid rgba(255, 215, 0, 0.3);
     }
 
     .card-back {
@@ -104,14 +104,21 @@
         display: none;
         margin-top: 35px;
         padding: 15px 50px;
-        background: linear-gradient(135deg, #6e45e2 0%, #a485ff 100%);
+        /* Желто-оранжевый градиент */
+        background: linear-gradient(135deg, #ffd700 0%, #ff9800 100%);
         border: none;
-        color: white;
+        /* Темный текст для контраста на желтом фоне */
+        color: #332200;
         border-radius: 30px;
         font-weight: bold;
         text-transform: uppercase;
-        box-shadow: 0 0 20px rgba(110, 69, 226, 0.5);
+        box-shadow: 0 5px 15px rgba(255, 152, 0, 0.4);
         cursor: pointer;
+        transition: transform 0.2s;
+    }
+
+    #confirm-btn:active {
+        transform: scale(0.95);
     }
 
     .locked { opacity: 0.4; filter: grayscale(0.8); pointer-events: none; }
@@ -119,9 +126,9 @@
 </head>
 <body>
 
-    <h3 style="text-transform: uppercase; text-shadow: 2px 2px 4px black;">Выберите 3 карты</h3>
+    <h3>Выберите 3 карты</h3>
     <div class="grid" id="grid"></div>
-    <button id="confirm-btn">ПОДТВЕРДИТЬ ВЫБОР</button>
+    <button id="confirm-btn">Подтвердить</button>
 
     <script>
         const tg = window.Telegram.WebApp;
@@ -162,7 +169,6 @@
         shuffled.forEach(card => {
             const container = document.createElement('div');
             container.className = 'card-container';
-            // Добавляем ?v=1 для обхода кэша Telegram
             const finalImgUrl = imgBase + card.img + "?v=1";
 
             container.innerHTML = `
@@ -195,7 +201,7 @@
                 tg.close();
             } catch(e) {
                 btn.disabled = false;
-                btn.innerText = "ПОДТВЕРДИТЬ ВЫБОР";
+                btn.innerText = "Подтвердить";
             }
         };
     </script>
